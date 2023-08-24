@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { ArToolkitProfile, ArToolkitSource, ArToolkitContext, ArMarkerControls} from '@ar-js-org/ar.js/three.js/build/ar-threex';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 
 
@@ -41,13 +42,13 @@ import { ArToolkitProfile, ArToolkitSource, ArToolkitContext, ArMarkerControls} 
     // add existing parameters, this is not well documented
     let additionalParameters = {
         // Device id of the camera to use (optional)
-        deviceId: null,
+        // deviceId: null,
         // resolution of at which we initialize in the source image
-        sourceWidth: 640,
-        sourceHeight: 480,
+        sourceWidth: Window.innerWidth,
+        sourceHeight: Window.innerHeight,
         // resolution displayed for the source
-        displayWidth: 640,
-        displayHeight: 480,
+        displayWidth: Window.innerWidth,
+        displayHeight: Window.innerHeight,
     }
     
     Object.assign(artoolkitProfile.sourceParameters, additionalParameters);
@@ -83,9 +84,9 @@ import { ArToolkitProfile, ArToolkitSource, ArToolkitContext, ArMarkerControls} 
     var arToolkitContext = new ArToolkitContext({
       debug: true,
       cameraParametersUrl: ArToolkitContext.baseURL + 'camera_para.dat',
-      detectionMode: 'mono',
-      canvasWidth: 640,
-      canvasHeight: 490,
+      detectionMode: 'color',
+      canvasWidth: Window.innerWidth,
+      canvasHeight: Window.innerHeight,
       imageSmoothingEnabled : true, // There is still a warning about mozImageSmoothingEnabled when using Firefox
     })
     
@@ -131,42 +132,65 @@ import { ArToolkitProfile, ArToolkitSource, ArToolkitContext, ArMarkerControls} 
     // add a torus knot
     var geometry	= new THREE.BoxGeometry(1,1,1);
     var material	= new THREE.MeshNormalMaterial({
-      transparent : true,
-      opacity: 0.5,
-      side: THREE.DoubleSide
+        transparent : true,
+        opacity: 0.5,
+        side: THREE.DoubleSide
     });
     var mesh	= new THREE.Mesh( geometry, material );
     mesh.position.y	= geometry.parameters.height/2
     markerScene.add(mesh)
-
+    
     var geometry	= new THREE.TorusKnotGeometry(0.3,0.1,64,16);
     var material	= new THREE.MeshNormalMaterial();
     var mesh	= new THREE.Mesh( geometry, material );
     mesh.position.y	= 0.5
     markerScene.add( mesh );
-
+    
     onRenderFcts.push(function(delta){
-      mesh.rotation.x += delta * Math.PI
+        mesh.rotation.x += delta * Math.PI
     })
 
+    const loader = new GLTFLoader();
+
+    loader.load(ArToolkitContext.baseURL + 'bull_w_texturemockup2.glb', function(gltf){
+        // debugger
+        gltf.scene.scale.x = .1
+        gltf.scene.scale.y = .1
+        gltf.scene.scale.z = .1
+
+        markerScene.add(gltf.scene);
+        // debugger;
+        // scene.rotation.y = .5;
+        
+    });
+
+
+    var light = new THREE.AmbientLight(0xffffff);
+    scene.add(light);
+
+    
     //////////////////////////////////////////////////////////////////////////////////
     //		render the whole thing on the page
     //////////////////////////////////////////////////////////////////////////////////
-    onRenderFcts.push(function(){
-    })
-    
-    // run the rendering loop
-    var lastTimeMsec = null;
-    
-    requestAnimationFrame(function animate(nowMsec){
-        // keep looping
-        renderer.render(scene, camera);
-        requestAnimationFrame(animate);
-        // measure time
-      lastTimeMsec	= lastTimeMsec || nowMsec-1000/60
-      var deltaMsec	= Math.min(200, nowMsec - lastTimeMsec)
-      lastTimeMsec	= nowMsec
-      // call each update function
+    // onRenderFcts.push(function(){
+        // })
+        
+        // run the rendering loop
+        var lastTimeMsec = null;
+        
+        
+        
+        requestAnimationFrame(function animate(nowMsec){
+            // console.log(markerScene)
+            // keep looping
+            renderer.render(scene, camera);
+            requestAnimationFrame(animate);
+            // measure time
+            lastTimeMsec	= lastTimeMsec || nowMsec-1000/60
+            var deltaMsec	= Math.min(200, nowMsec - lastTimeMsec)
+            lastTimeMsec	= nowMsec
+            // call each update function
+    //   console.log(onRenderFcts);
       onRenderFcts.forEach(function(onRenderFct){
         onRenderFct(deltaMsec/1000, nowMsec/1000)
       })

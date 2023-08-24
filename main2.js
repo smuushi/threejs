@@ -48,7 +48,7 @@ const loader = new GLTFLoader();
 loader.load('/public/bull_w_texturemockup2.glb', function(gltf){
     scene.add(gltf.scene);
     // debugger;
-    scene.rotation.y = .5;
+    // scene.rotation.y = .5;
 
 });
 
