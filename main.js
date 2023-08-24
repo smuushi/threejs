@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 500);
@@ -14,7 +15,7 @@ document.body.appendChild( renderer.domElement);
 
 
 
-const geometry = new THREE.BoxGeometry(1, 1, 1);
+const geometry = new THREE.BoxGeometry(10, 10, 10);
 const material = new THREE.MeshBasicMaterial( {color: 0x00ff89 });
 
 const cube = new THREE.Mesh(geometry, material);
@@ -36,7 +37,18 @@ scene.add(line);
 camera.position.z = 20;
 let coefficient = 1;
 
-console.log(scene)
+
+const loader = new GLTFLoader();
+
+loader.load('/public/stegosaurs.gltf', function(gltf){
+    scene.add(gltf.scene);
+});
+
+console.log(scene);
+
+cube.position.z = -10;
+renderer.setClearColor( 0xffffff, 0);
+
 function animate() {
 
     requestAnimationFrame(animate);
