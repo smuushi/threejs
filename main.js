@@ -5,7 +5,7 @@ import { ArToolkitProfile, ArToolkitSource, ArToolkitContext, ArMarkerControls} 
 
 
 
-    ArToolkitContext.baseURL = '/'
+    ArToolkitContext.baseURL = ''
     console.log("ARScene mounted");
 
     // init renderer
