@@ -5,7 +5,7 @@ import { ArToolkitProfile, ArToolkitSource, ArToolkitContext, ArMarkerControls} 
 
 
 
-    ArToolkitContext.baseURL = './'
+    ArToolkitContext.baseURL = '/'
     console.log("ARScene mounted");
 
     // init renderer
@@ -111,7 +111,7 @@ import { ArToolkitProfile, ArToolkitSource, ArToolkitContext, ArMarkerControls} 
 
     var markerControls = new ArMarkerControls(arToolkitContext, markerGroup, {
       type: 'pattern',
-      patternUrl: ArToolkitContext.baseURL + 'public/patter-marker.patt',
+      patternUrl: ArToolkitContext.baseURL + 'public/pattern-marker.patt',
       smooth: true,
       smoothCount: 5,
       smoothTolerance: 0.01,
