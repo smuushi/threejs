@@ -5,7 +5,7 @@ import { ArToolkitProfile, ArToolkitSource, ArToolkitContext, ArMarkerControls} 
 
 
 
-    ArToolkitContext.baseURL = ''
+    ArToolkitContext.baseURL = './'
     console.log("ARScene mounted");
 
     // init renderer
@@ -82,7 +82,7 @@ import { ArToolkitProfile, ArToolkitSource, ArToolkitContext, ArMarkerControls} 
     // create atToolkitContext
     var arToolkitContext = new ArToolkitContext({
       debug: true,
-      cameraParametersUrl: ArToolkitContext.baseURL + 'public/camera_para.dat',
+      cameraParametersUrl: ArToolkitContext.baseURL + 'camera_para.dat',
       detectionMode: 'mono',
       canvasWidth: 640,
       canvasHeight: 490,
@@ -111,7 +111,7 @@ import { ArToolkitProfile, ArToolkitSource, ArToolkitContext, ArMarkerControls} 
 
     var markerControls = new ArMarkerControls(arToolkitContext, markerGroup, {
       type: 'pattern',
-      patternUrl: ArToolkitContext.baseURL + 'public/pattern-marker.patt',
+      patternUrl: ArToolkitContext.baseURL + 'pattern-marker.patt',
       smooth: true,
       smoothCount: 5,
       smoothTolerance: 0.01,
