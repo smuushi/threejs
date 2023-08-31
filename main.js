@@ -16,7 +16,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
     });
 
     renderer.setClearColor(new THREE.Color('lightgrey'), 0)
-    // renderer.setPixelRatio( 2 );
+    renderer.setPixelRatio( 2 );
     renderer.setSize( window.innerWidth, window.innerHeight );
     renderer.domElement.style.position = 'absolute'
     renderer.domElement.style.top = '0px'
@@ -84,7 +84,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
     var arToolkitContext = new ArToolkitContext({
       debug: true,
       cameraParametersUrl: ArToolkitContext.baseURL + 'camera_para.dat',
-      detectionMode: 'color',
+      detectionMode: 'mono',
       canvasWidth: Window.innerWidth,
       canvasHeight: Window.innerHeight,
       imageSmoothingEnabled : true, // There is still a warning about mozImageSmoothingEnabled when using Firefox
@@ -92,6 +92,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
     
     // initialize it
     arToolkitContext.init(function onCompleted(){
+        // debugger
       // copy projection matrix to camera
       camera.projectionMatrix.copy( arToolkitContext.getProjectionMatrix() );
     })
@@ -112,7 +113,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
     var markerControls = new ArMarkerControls(arToolkitContext, markerGroup, {
       type: 'pattern',
-      patternUrl: ArToolkitContext.baseURL + 'pattern-marker.patt',
+      patternUrl: ArToolkitContext.baseURL + 'pattern-heli.patt',
       smooth: true,
       smoothCount: 5,
       smoothTolerance: 0.01,
